@@ -1,3 +1,4 @@
+import { DataProvider } from 'contexts/data';
 import { Navigate, Outlet } from 'react-router-dom';
 
 export default function ProtectedRoutes() {
@@ -10,5 +11,11 @@ export default function ProtectedRoutes() {
     return 'Loading...';
   }
 
-  return currentUser ? <Outlet /> : <Navigate to="/signin" replace />;
+  return currentUser ? (
+    <DataProvider>
+      <Outlet />
+    </DataProvider>
+  ) : (
+    <Navigate to="/signin" replace />
+  );
 }

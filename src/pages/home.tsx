@@ -1,6 +1,9 @@
+import { useData } from 'contexts/data';
 import { Logo } from '../components/icons';
 
 export default function Home() {
+  const { data, isLoading } = useData();
+  console.log(data, isLoading);
   return (
     <div className="flex p-2 px-4 min-h-full flex-col w-full md:max-w-lg md:p-2 m-auto">
       <header className="mt-1 flex justify-between">
