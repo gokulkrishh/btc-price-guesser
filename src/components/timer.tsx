@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { DataItem } from 'types/data';
+import { getElapsedTime } from 'utils';
 
 type TimerProps = {
   data: DataItem;
@@ -7,15 +8,13 @@ type TimerProps = {
 };
 
 export default function Timer({ data, onTick }: TimerProps) {
-  const currentTime = new Date().getTime();
-  const createdAtTime = new Date(data.createdAt).getTime();
-  const timeElapsed = Math.floor((currentTime - createdAtTime) / 1000);
+  const timeElapsed = getElapsedTime(data?.createdAt);
   const [elapsedTime, setElapsedTime] = useState(timeElapsed);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   useEffect(() => {
     if (data?.createdAt) {
-      const createdAtTime = new Date(data.createdAt).getTime();
+      const createdAtTime = new Date(data.createdAt).getTime() + 1000;
       timerRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
         const timeElapsed = Math.floor((currentTime - createdAtTime) / 1000);
@@ -29,7 +28,8 @@ export default function Timer({ data, onTick }: TimerProps) {
 
   return (
     <div className="flex items-center justify-center mt-2">
-      Time Elapsed: {Math.floor(elapsedTime)} seconds
+      Time Elapsed: {Math.max(1, Math.floor(elapsedTime))}{' '}
+      {elapsedTime <= 1 ? 'second' : 'seconds'}
     </div>
   );
 }

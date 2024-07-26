@@ -1,4 +1,4 @@
-import { DataItem } from 'types/data';
+import { DataItem, PriceResponse } from 'types/data';
 
 export const dateOptions = {
   day: '2-digit',
@@ -54,4 +54,30 @@ export const sortByKey = (
     }
     return 0;
   });
+};
+
+export type ReturnOfTransformData = {
+  price: number;
+  updatedAt: string;
+} | null;
+
+export const transformData = (
+  data: PriceResponse | null,
+): ReturnOfTransformData => {
+  if (!data) {
+    return null;
+  }
+  return {
+    price: data?.bpi?.USD?.rate_float,
+    updatedAt: data?.time?.updated,
+  };
+};
+
+export const getElapsedTime = (createdAt: string | null): number => {
+  if (!createdAt) {
+    return 0;
+  }
+  const currentTime = new Date().getTime();
+  const createdAtTime = new Date(createdAt).getTime();
+  return Math.floor((currentTime - createdAtTime) / 1000);
 };

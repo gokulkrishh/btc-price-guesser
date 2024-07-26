@@ -5,6 +5,7 @@ import { DataItem } from 'types/data';
 import { useData } from 'contexts/data';
 import { limits } from 'constants/index';
 import Timer from './timer';
+import { usePrice } from 'contexts/price';
 
 const client = generateClient<Schema>();
 
@@ -14,12 +15,13 @@ type GuessActionType = 'up' | 'down';
 
 export default function Guess() {
   const { data } = useData();
+  const { data: priceData, triggerFetch } = usePrice();
   const currentGuess = data.at(0);
-  const isGuessing = currentGuess?.resolved !== true;
+  const isGuessing = currentGuess && currentGuess?.resolved !== true;
 
   const createGuess = async (guess: GuessActionType) => {
     try {
-      const newGuess = { guess, initialPrice: 0 } as DataItem;
+      const newGuess = { guess, initialPrice: priceData?.price } as DataItem;
       await client.models.Data.create(newGuess);
     } catch (error) {
       console.error('Error', error);
@@ -52,8 +54,7 @@ export default function Guess() {
 
       const newGuess = {
         id: currentGuess?.id,
-        initialPrice: 0,
-        resolvedPrice: 10,
+        resolvedPrice: priceData?.price,
         correct,
         score,
         resolved: true,
@@ -65,11 +66,14 @@ export default function Guess() {
   };
 
   const handleClick = (guess: GuessActionType) => createGuess(guess);
-  const handleTick = (timeElapsed: number) => {
-    console.log(timeElapsed);
+
+  const handleTick = async (timeElapsed: number) => {
     if (timeElapsed > SIXTY_SECONDS) {
-      // Keep checking for new btc price to be resolved;
-      updateGuess();
+      //TODO: handle this better like a queue or is it ok to keep polling
+      await triggerFetch();
+      if (priceData?.price !== currentGuess?.initialPrice) {
+        updateGuess();
+      }
     }
   };
 
@@ -103,9 +107,7 @@ export default function Guess() {
         </button>
       </div>
 
-      {isGuessing && currentGuess ? (
-        <Timer data={currentGuess} onTick={handleTick} />
-      ) : null}
+      {isGuessing ? <Timer data={currentGuess} onTick={handleTick} /> : null}
     </div>
   );
 }

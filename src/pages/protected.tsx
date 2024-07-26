@@ -1,4 +1,5 @@
 import { DataProvider } from 'contexts/data';
+import { PriceProvider } from 'contexts/price';
 import { Navigate, Outlet } from 'react-router-dom';
 
 export default function ProtectedRoutes() {
@@ -13,7 +14,9 @@ export default function ProtectedRoutes() {
 
   return currentUser ? (
     <DataProvider>
-      <Outlet />
+      <PriceProvider>
+        <Outlet />
+      </PriceProvider>
     </DataProvider>
   ) : (
     <Navigate to="/signin" replace />
