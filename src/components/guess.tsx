@@ -1,27 +1,37 @@
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from 'amplify/data/resource';
 import { DataItem } from 'types/data';
+import { isTimeLimitElapsed } from 'utils';
+import { limits } from 'constants/index';
+import { useData } from 'contexts/data';
 
 const client = generateClient<Schema>();
 
-type ActionType = 'up' | 'down';
+type GuessActionType = 'up' | 'down';
+
+const { SIXTY_SECONDS_IN_MILLI_SECOND } = limits;
 
 export default function Guess() {
-  const createGuess = async (guess: ActionType) => {
+  const { data: allData } = useData();
+  const data = allData?.at(-1) ?? [];
+
+  const hasTimerElapsed = isTimeLimitElapsed(
+    data.createdAt,
+    SIXTY_SECONDS_IN_MILLI_SECOND,
+  );
+
+  console.log('hasTimerElapsed --->', hasTimerElapsed);
+
+  const createGuess = async (guess: GuessActionType) => {
     try {
-      const newGuess = {
-        guess,
-        initialPrice: 0,
-      } as DataItem;
+      const newGuess = { guess, initialPrice: 0 } as DataItem;
       await client.models.Data.create(newGuess);
     } catch (error) {
       console.error('Error', error);
     }
   };
 
-  const handleClick = async (action: ActionType) => {
-    await createGuess(action);
-  };
+  const handleClick = (guess: GuessActionType) => createGuess(guess);
 
   return (
     <div className="flex flex-col relative gap-1 mt-8 bg-orange-50 w-full p-3 rounded-xl">

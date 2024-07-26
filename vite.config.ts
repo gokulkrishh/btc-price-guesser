@@ -17,6 +17,8 @@ export default defineConfig({
       contexts: resolve(root, 'contexts'),
       types: resolve(root, 'types'),
       amplify: resolve(mainRoot, 'amplify'),
+      utils: resolve(root, 'utils'),
+      constants: resolve(root, 'constants'),
     },
   },
 });

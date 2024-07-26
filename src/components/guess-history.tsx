@@ -17,7 +17,7 @@ export default function GuessHistory() {
       ) : isEmpty ? (
         <p className="text-center">Make a guess</p>
       ) : (
-        data.map((datum: DataItem) => {
+        data.reverse().map((datum: DataItem) => {
           return <HistoryCard data={datum} key={datum.id} />;
         })
       )}

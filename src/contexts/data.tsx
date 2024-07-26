@@ -25,7 +25,7 @@ export const DataProvider = ({ children }: ProviderProps) => {
     const dataObserver = client.models.Data.observeQuery().subscribe({
       next: (data) => {
         setIsLoading(true);
-        setData(data.items as DataItem[]);
+        setData([...data.items] as DataItem[]);
         setIsLoading(false);
       },
       error: () => {

@@ -29,7 +29,9 @@
       "components/*": ["./src/components/*"],
       "contexts/*": ["./src/contexts/*"],
       "types/*": ["./src/types/*"],
-      "amplify/*": ["./amplify/*"]
+      "amplify/*": ["./amplify/*"],
+      "constants/*": ["./src/constants/*"],
+      "utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src", "amplify"]
