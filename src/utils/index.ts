@@ -29,9 +29,13 @@ export function formatCurrency(
   );
 }
 
-export const isTimeLimitElapsed = (time: string, limit: number = 60000) => {
-  const isElapsed = new Date().getTime() - limit * 2;
-  return new Date(time).getTime() > isElapsed;
+export const isTimeLimitElapsed = (
+  time: string | undefined,
+  limit: number,
+): boolean => {
+  if (!time) return false;
+  const isElapsed = new Date().getTime() - limit;
+  return new Date(time).getTime() < isElapsed;
 };
 
 type OrderType = 'asc' | 'desc';
