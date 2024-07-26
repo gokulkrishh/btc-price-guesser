@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom';
 
 export default function ProtectedRoutes() {
   const { currentUser, loading } = {
-    currentUser: null,
+    currentUser: true,
     loading: false,
   };
 
