@@ -8,6 +8,7 @@ import Timer from './timer';
 import { usePrice } from 'contexts/price';
 import { DownArrowIcon, UpArrowIcon } from './icons';
 import GuessSkeleton from './skeleton/guess';
+import clsx from 'clsx';
 
 const client = generateClient<Schema>();
 
@@ -89,11 +90,18 @@ export default function Guess() {
   };
 
   return (
-    <div className="flex flex-col relative gap-1 mt-8 bg-orange-50 w-full p-3 rounded-xl">
-      <h3 className="font-bold text-lg text-center text-zinc-700">
+    <div
+      className={clsx(
+        'flex flex-col relative gap-1 mt-8 bg-orange-50 w-full p-3 rounded-xl',
+        {
+          'border-2 border-orange-400': isGuessing,
+        },
+      )}
+    >
+      <h3 className="font-bold text-xl text-center text-zinc-700">
         {isGuessing
-          ? `Guessed as ${currentGuess.guess}!`
-          : 'Will the price go UP or DOWN in next minute?'}
+          ? `Waiting for Price Change...`
+          : 'Will Price go UP or DOWN in next minute?'}
       </h3>
       <div className="flex items-center mt-2 justify-center gap-4">
         <button

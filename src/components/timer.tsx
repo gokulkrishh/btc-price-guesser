@@ -23,13 +23,19 @@ export default function Timer({ data, onTick }: TimerProps) {
       }, 1000);
     }
 
-    return () => clearInterval(timerRef.current);
+    return () => {
+      console.log('came');
+      clearInterval(timerRef.current);
+    };
   }, [data, onTick]);
 
   return (
-    <div className="flex items-center font-medium justify-center mt-2">
+    <div className="flex flex-col items-center text-lg font-medium justify-center mt-2">
       Time Elapsed: {Math.max(1, Math.floor(elapsedTime))}{' '}
       {elapsedTime <= 1 ? 'second' : 'seconds'}
+      <p className="text-sm mt-1 text-zinc-500">
+        Only after 60 seconds, I will check for a price change.
+      </p>
     </div>
   );
 }

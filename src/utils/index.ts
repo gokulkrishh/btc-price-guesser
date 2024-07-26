@@ -29,15 +29,6 @@ export function formatCurrency(
   );
 }
 
-export const isTimeLimitElapsed = (
-  time: string | undefined,
-  limit: number,
-): boolean => {
-  if (!time) return false;
-  const isElapsed = new Date().getTime() - limit;
-  return new Date(time).getTime() < isElapsed;
-};
-
 type OrderType = 'asc' | 'desc';
 
 export const sortByKey = (
