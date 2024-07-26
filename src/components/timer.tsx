@@ -3,18 +3,18 @@ import { DataItem } from 'types/data';
 import { getElapsedTime } from 'utils';
 
 type TimerProps = {
-  data: DataItem;
+  timeStamp: DataItem['createdAt'];
   onTick: (timeElapsed: number) => void;
 };
 
-export default function Timer({ data, onTick }: TimerProps) {
-  const timeElapsed = getElapsedTime(data?.createdAt);
+export default function Timer({ timeStamp, onTick }: TimerProps) {
+  const timeElapsed = getElapsedTime(timeStamp);
   const [elapsedTime, setElapsedTime] = useState(timeElapsed);
   const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   useEffect(() => {
-    if (data?.createdAt) {
-      const createdAtTime = new Date(data.createdAt).getTime() + 1000;
+    if (timeStamp) {
+      const createdAtTime = new Date(timeStamp).getTime() + 1000;
       timerRef.current = setInterval(() => {
         const currentTime = new Date().getTime();
         const timeElapsed = Math.floor((currentTime - createdAtTime) / 1000);
@@ -27,15 +27,12 @@ export default function Timer({ data, onTick }: TimerProps) {
       console.log('came');
       clearInterval(timerRef.current);
     };
-  }, [data, onTick]);
+  }, [timeStamp, onTick]);
 
   return (
-    <div className="flex flex-col items-center text-lg font-medium justify-center mt-2">
+    <div className="flex flex-col items-center tabular-nums text-lg font-medium justify-center mt-2">
       Time Elapsed: {Math.max(1, Math.floor(elapsedTime))}{' '}
       {elapsedTime <= 1 ? 'second' : 'seconds'}
-      <p className="text-sm mt-1 text-zinc-500">
-        Only after 60 seconds, I will check for a price change.
-      </p>
     </div>
   );
 }

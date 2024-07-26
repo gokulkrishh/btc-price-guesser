@@ -128,7 +128,9 @@ export default function Guess() {
         </button>
       </div>
 
-      {isGuessing ? <Timer data={currentGuess} onTick={handleTick} /> : null}
+      {isGuessing ? (
+        <Timer timeStamp={currentGuess.createdAt} onTick={handleTick} />
+      ) : null}
     </div>
   );
 }
