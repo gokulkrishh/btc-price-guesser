@@ -31,7 +31,8 @@
       "types/*": ["./src/types/*"],
       "amplify/*": ["./amplify/*"],
       "constants/*": ["./src/constants/*"],
-      "utils/*": ["./src/utils/*"]
+      "utils/*": ["./src/utils/*"],
+      "hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["src", "amplify"]

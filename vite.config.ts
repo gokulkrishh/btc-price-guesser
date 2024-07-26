@@ -19,6 +19,7 @@ export default defineConfig({
       amplify: resolve(mainRoot, 'amplify'),
       utils: resolve(root, 'utils'),
       constants: resolve(root, 'constants'),
+      hooks: resolve(root, 'hooks'),
     },
   },
 });
