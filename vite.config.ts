@@ -1,4 +1,6 @@
-import { defineConfig } from 'vite';
+/** @type {import('vite').UserConfig} */
+
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 
 import { resolve } from 'node:path';
@@ -21,5 +23,9 @@ export default defineConfig({
       constants: resolve(root, 'constants'),
       hooks: resolve(root, 'hooks'),
     },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
   },
 });
