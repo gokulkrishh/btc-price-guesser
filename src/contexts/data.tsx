@@ -1,13 +1,10 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
+import { generateClient } from 'aws-amplify/data';
+import type { Schema } from 'amplify/data/resource';
 
-type DataItem = {
-  guess: string;
-  initialPrice: number;
-  resolvedPrice: number;
-  resolved: boolean;
-  correct: boolean;
-  score: number;
-};
+const client = generateClient<Schema>();
+
+import { DataItem } from 'types/data';
 
 type DataValue = {
   data: DataItem[];
@@ -21,13 +18,26 @@ type ProviderProps = {
 };
 
 export const DataProvider = ({ children }: ProviderProps) => {
+  const [data, setData] = useState<DataItem[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const dataObserver = client.models.Data.observeQuery().subscribe({
+      next: (data) => {
+        setIsLoading(true);
+        setData(data.items as DataItem[]);
+        setIsLoading(false);
+      },
+      error: () => {
+        console.error('Unable to update to latest score.');
+      },
+    });
+
+    return () => dataObserver.unsubscribe();
+  }, []);
+
   return (
-    <DataContext.Provider
-      value={{
-        data: [],
-        isLoading: false,
-      }}
-    >
+    <DataContext.Provider value={{ data, isLoading }}>
       {children}
     </DataContext.Provider>
   );

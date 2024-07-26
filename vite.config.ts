@@ -15,6 +15,7 @@ export default defineConfig({
       '*': resolve(root, '*'),
       components: resolve(root, 'components'),
       contexts: resolve(root, 'contexts'),
+      types: resolve(root, 'types'),
       amplify: resolve(mainRoot, 'amplify'),
     },
   },
