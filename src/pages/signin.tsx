@@ -1,11 +1,14 @@
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Logo } from 'components/icons';
 import Loader from 'components/loader';
 import useAuth from 'hooks/useAuth';
+import { signIn } from 'aws-amplify/auth';
 
 export default function SignIn() {
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [formError, setFormError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useAuth();
@@ -14,8 +17,32 @@ export default function SignIn() {
     if (user.currentUser) navigate('/');
   }, [navigate, user]);
 
-  const handleSubmit = () => {
-    setLoading(true);
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (!form.email || !form.password) {
+      return;
+    }
+
+    let isSuccess;
+    try {
+      setLoading(true);
+      const response = await signIn({
+        username: form.email,
+        password: form.password,
+      });
+      isSuccess = response.isSignedIn;
+      console.log(response);
+    } catch (error) {
+      let message = 'An unexpected error occurred.';
+      if (error instanceof Error) {
+        message = error.message;
+      }
+      setFormError(message);
+    } finally {
+      setLoading(false);
+      if (isSuccess) navigate('/');
+    }
   };
 
   return (
@@ -48,6 +75,8 @@ export default function SignIn() {
             autoComplete="email"
             type="email"
             placeholder="tim@apple.com"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
             required
           />
         </div>
@@ -62,6 +91,8 @@ export default function SignIn() {
             type="password"
             id="password"
             name="password"
+            value={form.password}
+            onChange={(e) => setForm({ ...form, password: e.target.value })}
             className="block h-10 w-full appearance-none rounded-md bg-white px-3 text-sm text-black shadow-sm ring-1 ring-zinc-300 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-zinc-900"
             autoComplete="password"
             required
@@ -81,9 +112,15 @@ export default function SignIn() {
           to="/signup"
           className="text-zinc-900 font-semibold border-zinc-900 border-b"
         >
-          Sign up here
+          Sign up
         </Link>
       </p>
+
+      {formError ? (
+        <p className="text-red-600 text-sm font-medium text-center mt-4">
+          {formError}
+        </p>
+      ) : null}
     </div>
   );
 }

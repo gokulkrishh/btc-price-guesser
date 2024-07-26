@@ -10,9 +10,8 @@ const schema = a.schema({
       correct: a.boolean().default(false),
       score: a.integer().default(0),
     })
-    .authorization((allow) => [allow.guest()]),
-  // restrict data access to logged in respective user only
-  // .authorization((allow) => [allow.owner()]),
+    // restrict data access to logged in respective user only
+    .authorization((allow) => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

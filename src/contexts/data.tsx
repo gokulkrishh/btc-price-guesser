@@ -34,8 +34,8 @@ export const DataProvider = ({ children }: ProviderProps) => {
         setData(sortedData);
         setIsLoading(false);
       },
-      error: () => {
-        console.error('Unable to update to latest score.');
+      error: (error) => {
+        console.error('Unable to fetch data', error);
       },
     });
 
