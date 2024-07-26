@@ -1,6 +1,6 @@
 # Price Guesser
 
-Guess the price of BTC/USD will go up or down in next 1 minute.
+Guess the price of BTC/USD will go up or down in after 1 minute.
 
 ### Installation
 

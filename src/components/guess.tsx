@@ -100,7 +100,7 @@ export default function Guess() {
       <h3 className="font-bold text-xl text-center text-zinc-700">
         {isGuessing
           ? `Waiting for Price Change...`
-          : 'Will Price go UP or DOWN in next minute?'}
+          : 'Will Price go UP or DOWN in after 1 minute?'}
       </h3>
       <div className="flex items-center mt-2 justify-center gap-4">
         <button
