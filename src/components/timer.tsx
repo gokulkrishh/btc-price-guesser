@@ -24,7 +24,6 @@ export default function Timer({ timeStamp, onTick }: TimerProps) {
     }
 
     return () => {
-      console.log('came');
       clearInterval(timerRef.current);
     };
   }, [timeStamp, onTick]);

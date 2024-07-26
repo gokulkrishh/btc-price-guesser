@@ -81,7 +81,6 @@ export default function Guess() {
 
   const handleTick = async (timeElapsed: number) => {
     if (timeElapsed > SIXTY_SECONDS) {
-      //TODO: handle this better like a queue or is it ok to keep polling
       await triggerFetch();
       if (priceData?.price !== currentGuess?.initialPrice) {
         updateGuess();
