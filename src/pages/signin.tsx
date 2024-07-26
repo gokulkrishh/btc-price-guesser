@@ -32,7 +32,6 @@ export default function SignIn() {
         password: form.password,
       });
       isSuccess = response.isSignedIn;
-      console.log(response);
     } catch (error) {
       let message = 'An unexpected error occurred.';
       if (error instanceof Error) {

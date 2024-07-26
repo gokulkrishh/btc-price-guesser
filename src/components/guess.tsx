@@ -26,7 +26,9 @@ export default function Guess() {
         score: currentGuess?.score,
         initialPrice: priceData?.price,
       } as DataItem;
-      await client.models.Data.create(newGuess);
+      await client.models.Data.create(newGuess, {
+        authMode: 'userPool',
+      });
     } catch (error) {
       console.error('Error', error);
     }
@@ -60,7 +62,9 @@ export default function Guess() {
         score,
         resolved: true,
       } as DataItem;
-      await client.models.Data.update(newGuess);
+      await client.models.Data.update(newGuess, {
+        authMode: 'userPool',
+      });
     } catch (error) {
       console.error('Error', error);
     }

@@ -23,7 +23,9 @@ export const DataProvider = ({ children }: ProviderProps) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const dataObserver = client.models.Data.observeQuery().subscribe({
+    const dataObserver = client.models.Data.observeQuery({
+      authMode: 'userPool',
+    }).subscribe({
       next: (data) => {
         setIsLoading(true);
         const sortedData = sortByKey(
