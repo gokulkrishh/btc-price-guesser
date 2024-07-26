@@ -1,10 +1,12 @@
 import { useData } from 'contexts/data';
 import { DataItem } from 'types/data';
 import HistoryCard from './card/history';
+import HistoryCardSkeleton from './skeleton/history';
+import EmptyDataState from './card/empty-data';
 
 export default function GuessHistory() {
   const { data, isLoading } = useData();
-  const isEmpty = data.length === 0;
+  const isEmpty = !isLoading && data.length === 0;
 
   return (
     <div className="flex flex-col gap-4 mt-8">
@@ -13,14 +15,18 @@ export default function GuessHistory() {
       </h3>
 
       {isLoading ? (
-        <p className="text-center">Loading...</p>
+        <HistoryCardSkeleton count={3} />
       ) : isEmpty ? (
-        <p className="text-center">Make a guess</p>
+        <EmptyDataState />
       ) : (
-        data.reverse().map((datum: DataItem, index) => {
+        data.map((datum: DataItem, index) => {
           return (
             <HistoryCard
-              className={index === 0 ? 'border-2 border-orange-400' : ''}
+              className={
+                index === 0 && !datum.resolved
+                  ? 'border-2 border-orange-400'
+                  : ''
+              }
               data={datum}
               key={datum.id}
             />

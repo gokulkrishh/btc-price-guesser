@@ -7,6 +7,7 @@ import { limits } from 'constants/index';
 import Timer from './timer';
 import { usePrice } from 'contexts/price';
 import { DownArrowIcon, UpArrowIcon } from './icons';
+import GuessSkeleton from './skeleton/guess';
 
 const client = generateClient<Schema>();
 
@@ -15,10 +16,14 @@ const { SIXTY_SECONDS } = limits;
 type GuessActionType = 'up' | 'down';
 
 export default function Guess() {
-  const { data } = useData();
+  const { data, isLoading } = useData();
   const { data: priceData, triggerFetch } = usePrice();
   const currentGuess = data.at(0);
   const isGuessing = currentGuess && currentGuess?.resolved !== true;
+
+  if (isLoading) {
+    return <GuessSkeleton />;
+  }
 
   const createGuess = async (guess: GuessActionType) => {
     try {
@@ -86,7 +91,9 @@ export default function Guess() {
   return (
     <div className="flex flex-col relative gap-1 mt-8 bg-orange-50 w-full p-3 rounded-xl">
       <h3 className="font-bold text-lg text-center text-zinc-700">
-        Will the price go UP or DOWN in next minute?
+        {isGuessing
+          ? `Guessed as ${currentGuess.guess}!`
+          : 'Will the price go UP or DOWN in next minute?'}
       </h3>
       <div className="flex items-center mt-2 justify-center gap-4">
         <button

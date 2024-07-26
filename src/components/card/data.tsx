@@ -14,7 +14,7 @@ export default function DataCard({
   return (
     <div
       className={clsx(
-        'flex flex-col relative gap-1 bg-zinc-100 w-full p-3 rounded-xl',
+        'flex flex-col gap-1 bg-zinc-100 w-full p-3 rounded-xl',
         className,
       )}
     >

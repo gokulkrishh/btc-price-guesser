@@ -9,24 +9,24 @@ const useAuth = () => {
   const [currentUser, setCurrentUser] = useState<GetCurrentUserOutput | null>(
     null,
   );
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const updateUser = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         const res = await getUser();
         setCurrentUser(res);
       } catch {
         setCurrentUser(null);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     updateUser();
   }, []);
 
-  return { currentUser, loading };
+  return { currentUser, isLoading };
 };
 
 export default useAuth;
