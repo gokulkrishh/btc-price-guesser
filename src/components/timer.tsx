@@ -27,7 +27,7 @@ export default function Timer({ data, onTick }: TimerProps) {
   }, [data, onTick]);
 
   return (
-    <div className="flex items-center justify-center mt-2">
+    <div className="flex items-center font-medium justify-center mt-2">
       Time Elapsed: {Math.max(1, Math.floor(elapsedTime))}{' '}
       {elapsedTime <= 1 ? 'second' : 'seconds'}
     </div>

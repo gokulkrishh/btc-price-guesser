@@ -21,7 +21,11 @@ export default function Guess() {
 
   const createGuess = async (guess: GuessActionType) => {
     try {
-      const newGuess = { guess, initialPrice: priceData?.price } as DataItem;
+      const newGuess = {
+        guess,
+        score: currentGuess?.score,
+        initialPrice: priceData?.price,
+      } as DataItem;
       await client.models.Data.create(newGuess);
     } catch (error) {
       console.error('Error', error);
@@ -34,17 +38,14 @@ export default function Guess() {
       let score = currentGuess?.score ?? 0;
       const isUp = currentGuess?.guess === 'up';
       const isDown = currentGuess?.guess === 'down';
+      const lastestPrice = priceData && priceData.price;
 
-      if (
-        isUp &&
-        currentGuess.resolvedPrice &&
-        currentGuess.resolvedPrice > currentGuess.initialPrice
-      ) {
+      if (isUp && lastestPrice && lastestPrice > currentGuess.initialPrice) {
         score++;
       } else if (
         isDown &&
-        currentGuess.resolvedPrice &&
-        currentGuess.resolvedPrice < currentGuess.initialPrice
+        lastestPrice &&
+        lastestPrice < currentGuess.initialPrice
       ) {
         score++;
       } else {
@@ -80,7 +81,7 @@ export default function Guess() {
   return (
     <div className="flex flex-col relative gap-1 mt-8 bg-orange-50 w-full p-3 rounded-xl">
       <h3 className="font-bold text-lg text-center text-zinc-700">
-        Will the price go up or down in next minute or so?
+        Will the price go UP or DOWN in next minute?
       </h3>
       <div className="flex items-center mt-2 justify-center gap-4">
         <button
