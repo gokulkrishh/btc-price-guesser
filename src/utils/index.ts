@@ -1,3 +1,5 @@
+import { DataItem } from 'types/data';
+
 export const dateOptions = {
   day: '2-digit',
   month: 'short',
@@ -30,4 +32,22 @@ export function formatCurrency(
 export const isTimeLimitElapsed = (time: string, limit: number = 60000) => {
   const isElapsed = new Date().getTime() - limit * 2;
   return new Date(time).getTime() > isElapsed;
+};
+
+type OrderType = 'asc' | 'desc';
+
+export const sortByKey = (
+  array: DataItem[],
+  key: keyof DataItem,
+  order: OrderType = 'asc',
+): DataItem[] => {
+  return array.sort((a, b) => {
+    if (typeof a[key] === 'string' && typeof b[key] === 'string') {
+      if (order === 'asc') {
+        return a[key].localeCompare(b[key]);
+      }
+      return b[key].localeCompare(a[key]);
+    }
+    return 0;
+  });
 };
