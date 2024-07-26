@@ -1,4 +1,4 @@
-import { Logo } from 'components/icons';
+import { Logo, SignOutIcon } from 'components/icons';
 import useAuth from 'hooks/useAuth';
 import { useState } from 'react';
 import Loader from './loader';
@@ -37,9 +37,15 @@ export default function Header() {
         <button
           disabled={isLoading}
           onClick={handleSignOut}
-          className="inline-flex items-center justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
+          className="inline-flex items-center tracking-tight justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
         >
-          {isLoading ? <Loader className="!text-white" /> : 'Sign out'}
+          {isLoading ? (
+            <Loader className="!text-white" />
+          ) : (
+            <>
+              <SignOutIcon className="mr-1" /> Logout
+            </>
+          )}
         </button>
       ) : null}
     </header>

@@ -76,7 +76,7 @@ export default function HistoryCard({
           </div>
         </div>
         <div className="font-medium flex items-center gap-1 text-sm tabular-nums text-black">
-          Computed score: {!isResolved ? 'Nil' : data.score}
+          Score: {!isResolved ? 'Nil' : data.score}
         </div>
       </div>
     </div>

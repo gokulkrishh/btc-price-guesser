@@ -6,6 +6,7 @@ import { useData } from 'contexts/data';
 import { limits } from 'constants/index';
 import Timer from './timer';
 import { usePrice } from 'contexts/price';
+import { DownArrowIcon, UpArrowIcon } from './icons';
 
 const client = generateClient<Schema>();
 
@@ -95,9 +96,9 @@ export default function Guess() {
               handleClick('up');
             }
           }}
-          className="inline-flex items-center justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
+          className="inline-flex items-center justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 hover:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
         >
-          Up
+          <UpArrowIcon className="text-white mr-0.5" /> Up
         </button>
         <button
           disabled={isGuessing}
@@ -106,9 +107,9 @@ export default function Guess() {
               handleClick('down');
             }
           }}
-          className="inline-flex items-center justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
+          className="inline-flex items-center justify-center whitespace-nowrap text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 hover:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 disabled:pointer-events-none bg-zinc-900 text-white hover:bg-zinc-900/90 shadow-sm disabled:opacity-50 h-9 rounded-xl px-3 font-medium"
         >
-          Down
+          <DownArrowIcon className="text-white mr-0.5" /> Down
         </button>
       </div>
 
